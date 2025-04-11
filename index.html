@@ -4,63 +4,63 @@
   <meta charset="UTF-8">
   <title>Mini Quiz</title>
   <style>
-    body {
-      font-family: sans-serif;
-      background-color: #f2f2f2;
-      padding: 40px;
-    }
-    .question {
-      margin-bottom: 20px;
-    }
-    .option {
-      display: block;
-      margin: 5px 0;
-    }
-    button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      font-size: 16px;
-    }
-    #result {
-      margin-top: 30px;
-      font-weight: bold;
-    }
+    body { font-family: sans-serif; padding: 30px; background: #eef2f5; }
+    h1 { margin-bottom: 20px; }
+    .question { margin-bottom: 25px; }
+    .option { display: block; margin: 5px 0; }
+    button { padding: 10px 20px; font-size: 16px; }
+    #result { margin-top: 30px; font-weight: bold; }
   </style>
 </head>
 <body>
 
-  <h1>🧠 Quick Quiz: Physics</h1>
+  <h1>🧠 Quick Physics Quiz</h1>
 
-  <div class="question">
-    <p>1. What is force?</p>
+  <div class="question" data-answer="a">
+    <p>1. What is a force?</p>
     <label class="option"><input type="radio" name="q1" value="a"> A push or pull</label>
     <label class="option"><input type="radio" name="q1" value="b"> Only gravity</label>
-    <label class="option"><input type="radio" name="q1" value="c"> An object’s speed</label>
+    <label class="option"><input type="radio" name="q1" value="c"> An object’s weight</label>
   </div>
 
-  <button onclick="checkAnswer()">Submit</button>
+  <div class="question" data-answer="b">
+    <p>2. Who discovered the laws of motion?</p>
+    <label class="option"><input type="radio" name="q2" value="a"> Galileo</label>
+    <label class="option"><input type="radio" name="q2" value="b"> Newton</label>
+    <label class="option"><input type="radio" name="q2" value="c"> Einstein</label>
+  </div>
+
+  <div class="question" data-answer="c">
+    <p>3. Which unit is used to measure force?</p>
+    <label class="option"><input type="radio" name="q3" value="a"> Joule</label>
+    <label class="option"><input type="radio" name="q3" value="b"> Watt</label>
+    <label class="option"><input type="radio" name="q3" value="c"> Newton</label>
+  </div>
+
+  <button onclick="checkAnswers()">Submit</button>
   <p id="result"></p>
 
   <script>
-    function checkAnswer() {
-      const selected = document.querySelector('input[name="q1"]:checked');
+    function checkAnswers() {
+      const questions = document.querySelectorAll('.question');
+      let score = 0;
+
+      questions.forEach((question, index) => {
+        const name = "q" + (index + 1);
+        const selected = document.querySelector(`input[name="${name}"]:checked`);
+        const correct = question.dataset.answer;
+
+        if (selected && selected.value === correct) {
+          score++;
+        }
+      });
+
       const result = document.getElementById('result');
-
-      if (!selected) {
-        result.textContent = "❗ Please select an answer.";
-        result.style.color = "red";
-        return;
-      }
-
-      if (selected.value === "a") {
-        result.textContent = "✅ Correct! Force is a push or pull.";
-        result.style.color = "green";
-      } else {
-        result.textContent = "❌ Incorrect. Try again.";
-        result.style.color = "red";
-      }
+      result.textContent = `You got ${score} out of ${questions.length} correct.`;
+      result.style.color = score === questions.length ? 'green' : 'black';
     }
   </script>
 
 </body>
 </html>
+
